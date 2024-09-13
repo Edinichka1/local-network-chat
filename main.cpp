@@ -3,7 +3,6 @@
 #include <string>
 #include <boost/asio.hpp>
 #include <conio.h>
-#include <windows.h>
 
 std::string history = "";
 std::string userInput = "";
