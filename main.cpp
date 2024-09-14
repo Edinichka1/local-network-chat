@@ -17,17 +17,6 @@ void historyUpdate(std::string& str) {
 	history += str;
 }
 
-void userInputUpdate(char ch) {
-	if (ch == '\b') {
-		if (userInput.size() > userNameLen + 2) {
-			userInput.resize(userInput.size() - 1);
-		}
-	}
-	else {
-		userInput += ch;
-	}
-}
-
 void displayUpdate() {
 	mutex.lock();
 
@@ -37,6 +26,19 @@ void displayUpdate() {
 	std::cout << userInput;
 
 	mutex.unlock();
+}
+
+void userInputUpdate(char ch) {
+	if (ch == '\b') {
+		if (userInput.size() > userNameLen + 2) {
+			userInput.resize(userInput.size() - 1);
+		}
+		displayUpdate();
+	}
+	else {
+		userInput += ch;	
+		std::cout << ch;
+	}
 }
 
 void sendMessage() {
@@ -80,14 +82,16 @@ void client(std::string userName) {
 		if (ch == '\n' && userInput.size() == userNameLen + 3) {
 			userInput = userName;
 			userInput += ": ";
+			displayUpdate();
 		}
 		else if (ch == '\n') {
 			sendMessage();
 
 			userInput = userName;
 			userInput += ": ";
+			displayUpdate();
 		}
-		displayUpdate();
+
 	}
 }
 
